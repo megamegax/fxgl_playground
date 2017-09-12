@@ -6,7 +6,8 @@ import com.almasb.fxgl.entity.Entities
 import com.almasb.fxgl.entity.EntityFactory
 import com.almasb.fxgl.entity.SpawnData
 import com.almasb.fxgl.entity.component.CollidableComponent
-import com.almasb.fxgl.entity.control.ProjectileControl
+import com.almasb.fxgl.physics.BoundingShape
+import com.almasb.fxgl.physics.HitBox
 import com.almasb.fxgl.physics.PhysicsComponent
 import com.almasb.fxgl.physics.box2d.dynamics.BodyType
 import com.almasb.fxgl.physics.box2d.dynamics.FixtureDef
@@ -60,10 +61,16 @@ class GameEntityFactory : EntityFactory {
     fun newFloor(spawnData: SpawnData) = Entities.builder()
             .from(spawnData)
             .type(BlockType.GROUND)
-            .with(PhysicsComponent().apply {
-                setBodyType(BodyType.STATIC)
-            })
-            .viewFromNodeWithBBox(Rectangle(40.0, 40.0, Color.DARKGREEN))
-            .with(CollidableComponent(true))
+            .at(0.0, 500.0)
+            .viewFromNode(Rectangle(400.0, 100.0, Color.GRAY))
+            .bbox(HitBox("Main", BoundingShape.chain(
+                    Point2D(0.0, 0.0),
+                    Point2D(400.0, 0.0),
+                    Point2D(400.0, 100.0),
+                    Point2D(0.0, 100.0)
+            )))
+            .with(PhysicsComponent())
+         //   .viewFromNodeWithBBox(Rectangle(40.0, 40.0, Color.DARKGREEN))
+          //  .with(CollidableComponent(true))
             .build()
 }
